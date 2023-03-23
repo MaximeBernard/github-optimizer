@@ -1,16 +1,14 @@
 console.log("Github Optimizer is running!");
 
-document.addEventListener("DOMContentLoaded", () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const activeTab = tabs[0];
+if (
+  document.location.hostname === "github.com" &&
+  document.location.pathname.includes("/orgs/kymono/projects")
+) {
+  console.log("Github Projects detected! Cleaning...");
 
-    if (activeTab.id === undefined) throw new Error("Tab ID is undefined");
+  document.querySelectorAll("[role=navigation]")[0].remove();
+  document.querySelectorAll("header")[0].remove();
+  document.querySelectorAll('[data-testid="tab-nav"]')[0].remove();
 
-    chrome.scripting.insertCSS({
-      // files: ["focus-mode.css"],
-      css: "body: { background-color: red; }",
-      target: { tabId: activeTab.id },
-    });
-  });
-});
-console.log("hello");
+  console.log("Cleaned up complete!");
+}
